@@ -15,7 +15,7 @@
 \graphicspath{ {./images/} }
 
 \begin{document}
-\title{Software Defined Radio and it's use cases
+\title{Software Defined Radio and it's applications
 }
 
 \author{\IEEEauthorblockN{1\textsuperscript{st} Julian Janisch}
@@ -47,15 +47,23 @@ SDR, antenna, signal processing, ADS-B, NOAA, replay attack
 % - erhältliche Hardware: HackRF, SDRplay, RTL-SDR, Airspy, LimeSDR, FunCube
 %   von wem kommt er? Was kostet er? Unterschiede/Möglichkeiten?
 
+Firstly, we will explain the concept of SDR receivers (and transmitters). Afterwards, we will showcase software packages available to use with SDR receivers on the different platforms. Finally, we will present different applications using SDRs: receiving air traffic transmissions, weather satellite images and replay attacks.
+
 \subsection{What is SDR?}
-A software defined radio system is a radio transmission system that heavily relies on software instead of analog hardware.\\
-In case of a transmitter, it takes data as an input (source), performs a sequence of operations via software on this data, converts it to an analog signal (with the help of an DAC) and transmits it wirelessly through its radio frequency (RF) frontend. The receiver performs the same tasks in reverse order (with an ADC), finally outputting the same data on it's sink.
+A software defined radio system is a radio transmission system that heavily relies on software instead of analog hardware~\cite[1]{Heuberger2017}.\\
+In case of a transmitter, it takes data as an input (source), performs a sequence of operations via software on this data, converts it to an analog signal (with the help of an DAC) and transmits it wirelessly through its radio frequency (RF) frontend. The receiver performs the same tasks in reverse order (with an ADC), finally outputting the same data on it's sink~\cite[5-6]{wyglinski2018software}.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=8cm]{forEngineers_SDR_structure}
+	\includegraphics[width=0.5\textwidth]{forEngineers_SDR_structure}
 	\caption{The structure of an SDR}
 \end{figure}
-In the diagram, the blocks marked as programmable can be implemented in software or programmable logic.\cite{wyglinski2018software}
+In the diagram, the blocks marked as programmable can be implemented in software or programmable logic~\cite[5]{wyglinski2018software}. This makes it possible to build highly generic RF hardware that can be used for different tasks~\cite[4]{wyglinski2018software}.\\
+The digital processing needs to be done on an IC suited for the tasks. Commonly used parts include~\cite[3]{Heuberger2017}:
+\begin{itemize}
+	\item FPGAs and ASICs for sample rate conversions
+	\item Digital signal processors (DSPs) for expensive computations in the demodulator
+	\item MCUs or CPUs for all other tasks
+\end{itemize}
 
 \section{Software} %Alexander
 %GNU Radio Companion
@@ -66,6 +74,28 @@ In the diagram, the blocks marked as programmable can be implemented in software
 %sdrangel
 % - Betriebssystem/von wem kommts/Lizenz/Funktionen/Backend
 % - Was ist ein Waterfall-Diagramm?
+\subsection{GNU Radio and the GNU Radio Companion}
+GNU Radio is a signal processing software and software development toolkit available for Linux, OS X and (with less support available) Windows~\cite{Gnu19FAQ}\cite{Gnu19What}. It is licenced under GPLv3 or later~\cite{Gnu19FAQ}.\\
+The desired signal processing steps are laid out as blocks that are connected to each other. End user applications are written using Python, while the performance-critical backend is written in C++.\\
+The GNU radio companion is a GUI for GNU Radio which aids in building these blocks through drag-and-drop, comparable to Simulink~\cite{Gnu19FAQ}.\\
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{gnuradio_example_flowgraph}
+	\caption{An example flowgraph in GNU Radio Companion~\cite{Gnu19Example}}
+\end{figure}
+
+\subsection{GQRX}
+GQRX is a graphical frontend for GNU Radio offering an FFT plot and waterfall graph, hardware abstractions for various SDRs to set frequency and other settings and multiple demodulators.\\
+The received data can be digitally filtered and recorded to a file.~\cite{GQRX19Home}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{gqrx_main_window}
+	\caption{GQRX main window~\cite{GQRX19Home}}
+\end{figure}
+
+\subsection{SDR\#}
+SDR\# (SDR sharp) is developed at Airspy for their Airspy SDRs, but can also be used with other SDRs like the RTL-SDR.\\The main software package is available for Windows only, while the "Spy Server", a program that allows streaming of the signal to clients, is available for Linux on x64/x86 and ARM (Raspberry Pi, Orange Pi).\\
+The functionality can be expanded with third-party plugins~\cite{SDRsharp19Download}.
 
 \section{ADS-B}
 %Was ist ADS-B
@@ -73,6 +103,8 @@ In the diagram, the blocks marked as programmable can be implemented in software
 %Welche Frequenzen gibt es? Welche Antenne wird benötigt?
 %Welche Software gibt es/wie funktioniert der Workflow (hackrf_transfer/sox/dump_1090)
 %Ergebnisse/Screenshots/flightradar24 Vergleich
+\subsection{What is ADS-B?}
+
 
 \section{NOAA SSTV} %Alexander
 %Was ist NOAA
