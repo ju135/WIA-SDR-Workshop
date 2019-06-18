@@ -38,7 +38,7 @@ our abstract.\cite{Heuberger2017}
 \end{abstract}
 
 \begin{IEEEkeywords}
-SDR, antenna, signal processing, ADS-B, NOAA, replay attack
+SDR, antenna, signal processing, ADS-B, NOAA, replay attack 
 \end{IEEEkeywords}
 
 \section{Introduction} %Julian
@@ -57,13 +57,31 @@ In case of a transmitter, it takes data as an input (source), performs a sequenc
 	\includegraphics[width=0.5\textwidth]{forEngineers_SDR_structure}
 	\caption{The structure of an SDR}
 \end{figure}
-In the diagram, the blocks marked as programmable can be implemented in software or programmable logic~\cite[5]{wyglinski2018software}. This makes it possible to build highly generic RF hardware that can be used for different tasks~\cite[4]{wyglinski2018software}.\\
+In the diagram, the blocks marked as programmable can be implemented in software or programmable logic~\cite[5]{wyglinski2018software}. This makes it possible to build highly generic RF hardware that can be used for different tasks~\cite[4]{wyglinski2018software}.\\ 
 The digital processing needs to be done on an IC suited for the tasks. Commonly used parts include~\cite[3]{Heuberger2017}:
 \begin{itemize}
 	\item FPGAs and ASICs for sample rate conversions
 	\item Digital signal processors (DSPs) for expensive computations in the demodulator
 	\item MCUs or CPUs for all other tasks
 \end{itemize}
+
+\subsection{Hardware}
+There is various hardware on the market for software defined radio receivers and transmitters (HackRF, SDRplay, RTL-SDR, Airspy, LimeSDR, FunCube, etc.). The software defined radios we used were:
+\begin{itemize}
+	\item HackRF One - for data transmitting and receiving
+	\item RTL-SDR - for data receivingss
+	\item SDR-play - for data receiving
+\end{itemize}
+\bigbreak
+\subsubsection{HackRF One}
+Compared to the other Software Defined Radios of our list is the HackRF with a price of around 300€ the most expensive, but it has several advantages. It provides a very high operational bandwidth (from 30MHz to 6GHz) with an instantaneous bandwidth of 20MHz. (Instantaneos bandwidth = It can acquire 20MHz of RF spectrum around the chosen center frequency in real-time without a re-tuning of the oscillator) \cite[2.5]{Mishra2014} The HackRf also offers in difference to our other hardware the possibility to transmit radio signals. So it can also be used to perform replay attacks (see section \ref{replayattack}). Radio signals between 30MHz and 6GHz (e.g. Signals from remote controls of wireless sockets) can be recorded and afterwards sended again.  \\
+
+\subsubsection{SDRplay}
+\cite{sdrplay}
+\\
+\subsubsection{RTL-SDR}
+This is the cheapest product on our list.(It did cost about 30€) The RTL-SDR is a USB-dongle which is capable of receiving radio signals  between 500kHz and 1,75GHz.  The  usage of these dongles started years ago from mass produced DVB-T TV Tuners. Because of an easy accessible chipset (RTL2832U) those tuners could be converted into wideband software defined radios (trough custom software drivers). This discovery made the access to the radio spectrum much cheaper. \cite{rtl-sdr}
+
 
 \section{Software} %Alexander
 %GNU Radio Companion
@@ -115,6 +133,7 @@ The functionality can be expanded with third-party plugins~\cite{SDRsharp19Downl
 %Ergebnisse/Screenshots
 
 \section{replay attack} %Julian
+\label{replayattack}
 %was ist eine replay attack?
 %Beispiel Funksteckdose: Wie funktioniert die Codierung?
 %wie funktioniert der workflow? HackRF + hackrf_transfer, parameter, 433 MHz Antenne
@@ -126,7 +145,7 @@ The functionality can be expanded with third-party plugins~\cite{SDRsharp19Downl
 %ship tracking
 %Antennentypen: Dipol, Yagi, Patch, Parabol, ...
 
-%\bibliography{references}
-%\bibliographystyle{ieeetr}
+\bibliography{references}
+\bibliographystyle{ieeetr}
 
 \end{document}
