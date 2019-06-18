@@ -8,11 +8,21 @@
 \usepackage{graphicx}
 \usepackage{textcomp}
 \usepackage{xcolor}
+\usepackage{listings}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \DeclareGraphicsExtensions{.png,.PNG,.tiff,.tif,.jpeg,.jpg,.JPG,.JPEG,.gif}
 \graphicspath{ {./images/} }
+\definecolor{lstgray}{gray}{0.95}
+\lstset{%
+	backgroundcolor=\color{lstgray},
+	stepnumber=2,
+	basicstyle=\footnotesize,%
+	showspaces=false,showstringspaces=true,%
+	language=SQL,%
+	numbers=none,tabsize=4,breaklines%
+}
 
 \begin{document}
 \title{Software Defined Radio and it's applications
@@ -34,7 +44,7 @@
 \maketitle
 
 \begin{abstract}
-our abstract.\cite{Heuberger2017}
+In this paper, we will explain the concept of SDR receivers (and transmitters). Afterwards, we will showcase software packages available to use with SDR receivers on the different platforms. Finally, we will present different applications using SDRs: receiving air traffic transmissions, weather satellite images and replay attacks.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -47,7 +57,7 @@ SDR, antenna, signal processing, ADS-B, NOAA, replay attack
 % - erhältliche Hardware: HackRF, SDRplay, RTL-SDR, Airspy, LimeSDR, FunCube
 %   von wem kommt er? Was kostet er? Unterschiede/Möglichkeiten?
 
-Firstly, we will explain the concept of SDR receivers (and transmitters). Afterwards, we will showcase software packages available to use with SDR receivers on the different platforms. Finally, we will present different applications using SDRs: receiving air traffic transmissions, weather satellite images and replay attacks.
+
 
 \subsection{What is SDR?}
 A software defined radio system is a radio transmission system that heavily relies on software instead of analog hardware~\cite[1]{Heuberger2017}.\\
@@ -122,7 +132,48 @@ The functionality can be expanded with third-party plugins~\cite{SDRsharp19Downl
 %Welche Software gibt es/wie funktioniert der Workflow (hackrf_transfer/sox/dump_1090)
 %Ergebnisse/Screenshots/flightradar24 Vergleich
 \subsection{What is ADS-B?}
-
+Automatic Dependent Surveillance Broadcast is a system in air traffic control for transmitting flight data (location, \ldots) from an aircraft to air traffic control stations.\\
+It should replace radar as the primary tracking mechanism because of it's higher precision needed in modern, densely populated air space~\cite{strohmeier2014realities}.
+\subsection{Frequencies}
+Two standards with different frequencies are in use: Universal Access Transceiver (978 MHz) and 1090 MHz extended squitter (1090ES). The latter is more common in commercial aircraft, as it can be used with hardware already fitted for a previous communication standard (mode S)~\cite{strohmeier2014realities}.
+\subsection{Antennas}
+For our experiments, we used a monopole antenna specifically designed for ADS-B on 1090 MHz. It was sourced on Amazon for € 10,56.
+\subsection{Workflow}
+We used an HackRF SDR receiver for our experiment. Data was captured using the HackRF command line tool \lstinline|hackrf_transfer|. The full command used was
+\begin{lstlisting}
+hackrf_transfer -r - -f 1090000000 -s 2000000 -p 0 -a 0 -l 40 -g 62
+\end{lstlisting}
+\begin{enumerate}
+	\item -r: receive data
+	\item ~-: output to stdout
+	\item -f: frequency in Hz
+	\item -s: sample rate in samples per second
+	\item -p: antenna port power (disable)
+	\item -a: receiver and transmitter RF amplifier (disable)
+	\item -l: receiver end low noise amplifier gain in dB
+	\item -g: receiver end baseband amplifier gain in dB
+\end{enumerate}
+The output of \lstinline|hackrf_transfer| was then piped into SoX, an audio processing application~\cite{SoX19}. This was necessary because the hackrf uses signed bytes, while the next application expects unsigned bytes. The full command was~\cite{Medium19ADS-B}:
+\begin{lstlisting}
+sox --rate 2000000 --channels 1 --type sb - --type ub -
+\end{lstlisting}
+\begin{enumerate}
+	\item --rate: the sample rate
+	\item --channels: number of channels
+	\item --type: type of input (signed byte)
+	\item -: read from stdin
+	\item --type: type of output (unsigned byte)
+	\item -: write to stdout
+\end{enumerate}
+To decode and visualize the received data, we used dump1090. It can output the data on the console and on a website running on localhost. It is available under a BSD licence~\cite{dump109019Github}. The command used was:
+\begin{lstlisting}
+dump1090 --ifile - --net --interactive
+\end{lstlisting}
+\begin{enumerate}
+	\item --ifile -: input file, read from stdin
+	\item --net: enable networking
+	\item --interactive: show interactive data on console
+\end{enumerate}
 
 \section{NOAA SSTV} %Alexander
 %Was ist NOAA
