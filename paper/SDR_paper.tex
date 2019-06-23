@@ -179,6 +179,16 @@ dump1090 --ifile - --net --interactive
 	\item --net: enable networking
 	\item --interactive: show interactive data on console
 \end{enumerate}
+Alternatively, the flightaware fork of dump1090 has built-in support for RTL-SDR dongles~\cite{Github19dump1090-fa}. It can be started with
+\begin{lstlisting}
+dump1090 --interactive
+\end{lstlisting}
+Both sources, RTL-SDR and HackRF produce an output similar to the one shown in figure \ref{fig:dump1090screenshot}.
+\begin{figure}
+	\centering
+	\caption{Output of dump1090 on 23rd June, 20:13 in Hagenberg/Mühlkreis} \label{fig:dump1090screenshot}
+	\includegraphics[width=0.5\textwidth]{dump1090_screenshot}
+\end{figure}
 
 \section{NOAA APT} %Alexander
 %Was ist NOAA
