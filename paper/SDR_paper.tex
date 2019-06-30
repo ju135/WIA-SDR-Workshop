@@ -88,7 +88,7 @@ There is various hardware on the market for software defined radio receivers and
 \end{itemize}
 
 \subsection{HackRF One}
-Compared to the other Software Defined Radios of our list, the HackRF One with a price of around 300€ is the most expensive. But it has several advantages: It provides a very high operational bandwidth (from 30MHz to 6GHz) with an instantaneous bandwidth of 20MHz. (Instantaneos bandwidth = It can acquire 20MHz of RF spectrum around the chosen center frequency in real-time without a re-tuning of the oscillator) \cite[Kap. 2.5]{Mishra2014} The HackRf is not only able to receive radio signals, but also to transmit them. Radio signals between 30MHz and 6GHz (e.g. Signals from remote controls of wireless sockets) can be recorded and afterwards sended again. So it can also be used to perform replay attacks (see section \ref{replayattack}).  \\
+Compared to the other Software Defined Radios of our list, the HackRF One with a price of around 300€ is the most expensive. But it has several advantages: It provides a very high operational bandwidth (from 30MHz to 6GHz) with an instantaneous bandwidth of 20MHz. (Instantaneos bandwidth = It can acquire 20MHz of RF spectrum around the chosen center frequency in real-time without a re-tuning of the oscillator) \cite[Chap. 2.5]{Mishra2014} The HackRf is not only able to receive radio signals, but also to transmit them. Radio signals between 30MHz and 6GHz (e.g. Signals from remote controls of wireless sockets) can be recorded and afterwards sended again. So it can also be used to perform replay attacks (see section \ref{replayattack}).  \\
 
 \subsection{SDRplay}
 In order to receive radio signals we also ordered an SDRplay (Type RSP1). This receiver covers the RF spectrum from 1kHz to 2GHz. The SDRplay ships with  a lot of software support (HDSDR, SDR Console, Cubic SDR and SDRuno), hence is very easy to setup. The instantaneous bandwidth is 10MHz and there are several preselection filters built in for better receiving-results. To provide more accuracy the SDRplay uses a 14-Bit ADC (RTL-SDR uses only 8-Bit).
@@ -355,8 +355,16 @@ After doing that we could detect, that when switching on or off there is the sam
 
 So we could cut away most of these repetitive signals. In our case we needed at least three repetitions of the signal to switch the unit. After the cutting we exported the data again as raw file (\textit{File - export - audio export - raw (header-less) with the unsigned 16-Bit PCM encoding}) and sent it with the HackRF. In doing that we could reduce the filesize from 70MB to 2MB.
 
-\section{Conclusion}
-There are a lot of applications to use Software Defined Radio. 
+\section{Conclusion and Further Work}
+There are a lot of capabilities for software defined radio applications. The experiments we did were just some of the plenty things that are possible with software defined radios. The community around SDR is very big, hence there are a lot of projects on different use cases to find on the internet \cite{rtl-sdr}. Some of them are:
+
+\begin{itemize}
+	\item Tracking boat positions with AIS decoding  \cite{ais-ship-tracking}
+	\item Listening to the International Space Station (ISS) \cite{iss-listening}
+	\item Watching analog broadcast TV  \cite{analogue-tv-sdr}
+	\item Sniffing GSM signals  \cite{analyzing-gsm}
+	\item Monitor meteor burst communications  \cite{meteor-reflection}
+\end{itemize}
 %weitere Ideen:
 %Radioempfang + Codierung
 %rechtliche Lage: ISM-Bänder, Amateurfunklizenz
