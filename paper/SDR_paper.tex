@@ -15,9 +15,9 @@
 
 \DeclareGraphicsExtensions{.png,.PNG,.tiff,.tif,.jpeg,.jpg,.JPG,.JPEG,.gif}
 \graphicspath{ {./images/} }
-\definecolor{lstgray}{gray}{0.95}
+%\definecolor{lstgray}{gray}{0.95}
 \lstset{%
-	backgroundcolor=\color{lstgray},
+	%backgroundcolor=\color{lstgray},
 	stepnumber=2,
 	basicstyle=\footnotesize,%
 	showspaces=false,showstringspaces=true,%
@@ -26,26 +26,26 @@
 }
 
 \begin{document}
-\title{Software Defined Radio and it's applications
+\title{Software Defined Radio and its Applications
 }
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Julian Janisch}
-	\IEEEauthorblockA{\textit{Mobile Computing} \\
-		\textit{FH OÖ Campus Hagenberg}\\
-		Hagenberg im Mühlkreis, Österreich \\
+\author{\IEEEauthorblockN{Julian Janisch}
+	\IEEEauthorblockA{\textit{FH OÖ Campus Hagenberg, Mobile Computing}\\
+		Softwarepark 106/14\\
+		4232 Hagenberg im Mühlkreis, Austria\\
 		s1710237010@students.fh-hagenberg.at}
 	\and
-	\IEEEauthorblockN{2\textsuperscript{nd} Alexander Kemptner}
-	\IEEEauthorblockA{\textit{Mobile Computing} \\
-		\textit{FH OÖ Campus Hagenberg}\\
-		Hagenberg im Mühlkreis, Österreich \\
+	\IEEEauthorblockN{Alexander Kemptner}
+	\IEEEauthorblockA{\textit{FH OÖ Campus Hagenberg, Mobile Computing}\\
+		Softwarepark 106/9\\
+		4232 Hagenberg im Mühlkreis, Austria\\
 		s1710237015@students.fh-hagenberg.at}
 }
 
 \maketitle
 
 \begin{abstract}
-In this paper, we will explain the concept of SDR receivers (and transmitters). Afterwards, we will showcase software packages available to use with SDR receivers on the different platforms. Finally, we will present different applications using SDRs: receiving air traffic transmissions, weather satellite images and replay attacks.
+In this paper, we will explain the concept of software defined radio (SDR) receivers (and transmitters). Afterwards, we will present software packages available to use with SDR receivers on the different platforms. Finally, we will discuss different applications using SDRs: receiving air traffic transmissions, weather satellite images and replay attacks.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -61,19 +61,19 @@ SDR, antenna, signal processing, ADS-B, NOAA, replay attack
 
 
 \subsection{What is SDR?}
-A software defined radio system is a radio transmission system that heavily relies on software instead of analog hardware~\cite[1]{Heuberger2017}.\\
-In case of a transmitter, it takes data as an input (source), performs a sequence of operations via software on this data, converts it to an analog signal (with the help of an DAC) and transmits it wirelessly through its radio frequency (RF) frontend. The receiver performs the same tasks in reverse order (with an ADC), finally outputting the same data on it's sink~\cite[5-6]{wyglinski2018software}.
+A software defined radio system is a radio transmission system that heavily relies on software instead of analog hardware~\cite{Heuberger2017}.\\
+In case of a transmitter, it takes data as an input (source), performs a sequence of operations via software on this data, converts it to an analog signal (with the help of an DAC) and transmits it wirelessly through its radio frequency (RF) frontend. The receiver performs the same tasks in reverse order (with an ADC), finally outputting the same data on it's sink~\cite[5pp]{wyglinski2018software}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{forEngineers_SDR_structure}
-	\caption{The structure of an SDR}
+	\caption{The structure of an SDR. Most of the processing is done on the digital side, the D/A and A/D converters are at the very end/beginning of the chain.}
 \end{figure}
-In the diagram, the blocks marked as programmable can be implemented in software or programmable logic~\cite[5]{wyglinski2018software}. This makes it possible to build highly generic RF hardware that can be used for different tasks~\cite[4]{wyglinski2018software}.\\ 
-The digital processing needs to be done on an IC suited for the tasks. Commonly used parts include~\cite[3]{Heuberger2017}:
+In the diagram, the blocks marked as programmable can be implemented in software or programmable logic~\cite[5p]{wyglinski2018software}. This makes it possible to build highly generic RF hardware that can be used for different tasks~\cite[4p]{wyglinski2018software}.\\ 
+The digital processing needs to be done on an IC suited for the tasks. Commonly used parts include~\cite[3p]{Heuberger2017}:
 \begin{itemize}
 	\item FPGAs and ASICs for sample rate conversions
 	\item Digital signal processors (DSPs) for expensive computations in the demodulator
-	\item MCUs or CPUs for all other tasks
+	\item Microcontroller units (MCUs) or CPUs for all other tasks
 \end{itemize}
 
 \section{Hardware}
@@ -81,7 +81,7 @@ There is various hardware on the market for software defined radio receivers and
 \begin{itemize}
 	\item HackRF One - for data transmitting and receiving
 	\item RTL-SDR - for data receiving
-	\item SDR-play - for data receiving
+	\item SDRplay - for data receiving
 \end{itemize}
 
 \subsection{HackRF One}
@@ -93,8 +93,6 @@ In order to receive radio signals we also ordered an SDRplay (Type RSP1). This r
 \\
 \subsection{RTL-SDR}
 This is the cheapest product on our list.(It did cost about 30€) The RTL-SDR is a USB-dongle which is capable of receiving radio signals  between 500kHz and 1,75GHz.  The  usage of these dongles started years ago from mass produced DVB-T TV Tuners. Because of an easy accessible chipset (RTL2832U) those tuners could be converted into wideband software defined radios (trough custom software drivers). This discovery made the access to the radio spectrum much cheaper. \cite{rtl-sdr}
-
-
 
 \section{Software} %Alexander
 %GNU Radio Companion
@@ -116,8 +114,8 @@ The GNU radio companion is a GUI for GNU Radio which aids in building these bloc
 \end{figure}
 
 \subsection{GQRX}
-GQRX is a graphical frontend for GNU Radio offering an FFT plot and waterfall graph, hardware abstractions for various SDRs to set frequency and other settings and multiple demodulators.\\
-The received data can be digitally filtered and recorded to a file.~\cite{GQRX19Home}
+GQRX is a graphical frontend for GNU Radio offering an FFT plot and waterfall graph, hardware abstractions for various SDR devices to set frequency and other settings and multiple demodulators.\\
+The received data can be digitally filtered and recorded to a file~\cite{GQRX19Home}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{gqrx_main_window}
@@ -136,7 +134,9 @@ The functionality can be expanded with third-party plugins~\cite{SDRsharp19Downl
 %Ergebnisse/Screenshots/flightradar24 Vergleich
 \subsection{What is ADS-B?}
 Automatic Dependent Surveillance Broadcast is a system in air traffic control for transmitting flight data (location, \ldots) from an aircraft to air traffic control stations.\\
-It should replace radar as the primary tracking mechanism because of it's higher precision needed in modern, densely populated air space~\cite{strohmeier2014realities}.
+It should replace radar as the primary tracking mechanism because of its higher precision needed in modern, densely populated air space~\cite{strohmeier2014realities}.
+\subsection{Objective}
+In this experiment, we want to capture and visualise the ADS-B messages sent by airplanes in our area.
 \subsection{Frequencies}
 Two standards with different frequencies are in use: Universal Access Transceiver (978 MHz) and 1090 MHz extended squitter (1090ES). The latter is more common in commercial aircraft, as it can be used with hardware already fitted for a previous communication standard (mode S)~\cite{strohmeier2014realities}.
 \subsection{Antennas}
@@ -168,7 +168,8 @@ sox --rate 2000000 --channels 1 --type sb - --type ub -
 	\item --type: type of output (unsigned byte)
 	\item -: write to stdout
 \end{enumerate}
-To decode and visualize the received data, we used dump1090. It can output the data on the console and on a website running on localhost. It is available under a BSD licence~\cite{dump109019Github}. The command used was:
+SoX is licenced under the GPL and is available on \url{sourceforge.net}.\\
+To decode and visualize the received data, we used dump1090. It can output the data on the console and on a website running on localhost. It is available on GitHub under a BSD licence~\cite{dump109019Github}. The command used was:
 \begin{lstlisting}
 dump1090 --ifile - --net --interactive
 \end{lstlisting}
@@ -181,7 +182,7 @@ Alternatively, the flightaware fork of dump1090 has built-in support for RTL-SDR
 \begin{lstlisting}
 dump1090 --interactive
 \end{lstlisting}
-Both sources, RTL-SDR and HackRF produce an output similar to the one shown in figure \ref{fig:dump1090screenshot}.
+Both sources, RTL-SDR and HackRF produce an output similar to the one shown in figure \ref{fig:dump1090screenshot}. In interactive mode, one row corresponds to one aircraft. Rows are updated continuously and deleted if no messages from this aircraft were received in the last 60 seconds. Decoded fields are, among others, flight number, squawk code, altitude, coordinates, speed, heading, number of messages received and signal strength~\cite{dump109019Github}. One can see that just after the one-minute-mark, some aircraft are approaching 2,000 messages. 
 \begin{figure}
 	\centering
 	\caption{Output of dump1090 on 23rd June, 20:13 in Hagenberg/Mühlkreis} \label{fig:dump1090screenshot}
@@ -196,33 +197,35 @@ Both sources, RTL-SDR and HackRF produce an output similar to the one shown in f
 %Welche Software gibt es/wie funktioniert der Workflow
 %Ergebnisse/Screenshots
 \subsection{What is NOAA?}
-The \textit{National Oceanic and Atmospheric Administration} is an organisation of the US government producing, among other things, weather forecasts~\cite{NOAA19agency}. For this purpose, a suborganisation called the \textit{Satellite and Information Service} currently operates 18 satellites~\cite{NOAA19currently}. Among them are 5 geostationary GOES satellites and four NOAA sun-synchronous polar-orbiting satellites~\cite{NOAA19satellites}. We will focus on the latter in this application example.
+The \textit{National Oceanic and Atmospheric Administration} is an organisation of the US government producing, among other things, weather forecasts~\cite{NOAA19agency}. For this purpose, a suborganisation called the \textit{Satellite and Information Service} currently operates 18 satellites~\cite{NOAA19currently}. Among them, there are 5 geostationary GOES satellites and four NOAA sun-synchronous polar-orbiting satellites (POES)~\cite{NOAA19satellites}. We will focus on the latter in this application example.
 \subsection{What is APT?}
 \textit{Automatic Picture Transmission} is an analog system for transmitting images from satellites to ground stations. In case of (POES) NOAA satellites, two images of different wavelengths are transmitted simultaneously.\\
-The system uses frequency modulation with a carrier frequency of around 137~MHz~\cite{NOAA19status}. The downsampled 8-bit signal from the sensor is modulated onto a 2.4~kHz via amplitude modulation. This is in turn frequency modulated onto the carrier frequency of the satellite~\cite{NOAA19building}.\\
+The system uses frequency modulation with a carrier frequency of around 137~MHz~\cite{NOAA19status}. The downsampled 8-bit signal from the sensor is modulated onto a 2.4~kHz band via amplitude modulation. This is in turn frequency modulated onto the carrier frequency of the satellite~\cite{NOAA19building}.\\
 \begin{figure}
 \centering
 \caption{The APT protocol~\cite{NOAA19building}} \label{fig:aptprotocol}
 \includegraphics[width=0.5\textwidth]{apt_protocol}
 \end{figure}
-As shown in figure \ref{fig:aptprotocol}, data is transmitted line-by-line, one line every 0.5 seconds, each 2800px long (including metadata)~\cite[2]{dascal2012advanced}. Lines start with a synchronisation block (832 Hz for IR, 1040 Hz for visible to distinguish the two) for the decoding software, followed by minute and space markers (brief scan of space, with an opposing bar inserted every minute). This is followed by the image data. On the right side of each frame is the telemetry data, containing calibration data~\cite[41-42]{NOAA19building}.
+As shown in figure \ref{fig:aptprotocol}, data is transmitted line-by-line, one line every 0.5 seconds, each 2800px long (including metadata)~\cite[2p]{dascal2012advanced}. Lines start with a synchronisation block (832 Hz for IR, 1040 Hz for visible to distinguish the two) for the decoding software, followed by minute and space markers (the sensor briefly scans empty space turned away from earth, which shows up as pure black or white, and inserts an opposingly colored bar every minute). This is followed by the image data. At the end of each frame is the telemetry data, containing calibration data~\cite[41pp]{NOAA19building}.
 \subsection{Antennas} \label{sec:NOAAantennas}
-Some frequently used antenna designs are the (cheaper) turnstile antenna and the (better suited) quadrifilar antenna~\cite[45]{NOAA19building}. The ideal polarisation is right-hand circular.\\
+Some frequently used antenna designs are the (cheaper) turnstile antenna and the (better suited) quadrifilar antenna~\cite[45p]{NOAA19building}. The ideal polarisation is right-hand circular~\cite[44p]{NOAA19building}.\\
 In our experiment, we used a different, easier design. Our antenna was a V-dipole with horizontal polarisation. This design achieves 20 dB of attenuation of the vertically polarised broadcasting stations located near the 137~MHz frequency of the POES satellites. It uses two 53.4~cm aluminium rod legs bent apart 120 degrees. They are fixed in a choc block terminal. On the other side, the shield of a coax cable is connected to one of the terminals, the inner conductor to the other~\cite{Adam15antenna}. We used standard TV coax cable, finished them with type F connectors and connected the antenna to our SDR receiver through an F-to-SMA connector. Our finished design is shown in figure \ref{fig:vdipolefinished}.
 \begin{figure}
 	\centering
 	\caption{the antenna mounted onto a tripod with a flashlight hot-shoe clamp}
 	\includegraphics[width=0.5\textwidth]{v-dipole-finished} \label{fig:vdipolefinished}
 \end{figure}
+\subsection{Objective}
+In this experiment, we attempt to receive these APT images with the mentioned inexpensive, partially self-built equipment.
 \subsection{Experiment}
-We performed two experiments, receiving NOAA 15 and NOAA 19 at different locations.
+We performed two experiments, receiving two NOAA POES satellites, NOAA 15 and NOAA 19, at different locations.
 \subsubsection{Sites}
 Information about upcoming passes was sourced from \url{https://heavens-above.com/}. The first pass was NOAA 19 on 21th June 2019, 16:24 local time. The antenna was set up in a valley, and the maximum elevation of the satellite was 39 degrees, which led to a loss of signal at the beginning and end of transmission.\\
 The second attempt was on an observation deck on a mountain at 750m above sea level. This reception shows more information at the extremes of the image, also due to the satellite passing directly overhead (88 degrees~\cite{heavensabove19noaa15}).\\
 \subsubsection{Hardware}
 We used the home-built V-dipole antenna mentioned in \ref{sec:NOAAantennas}. The SDR used was an SDRplay (RSP1A). 
 \subsubsection{Software}
-For receiving the signal, we used GQRX tuned to the respective satellite frequency. Modulation was set for FM, APT (17k) and Tau off. We used varying levels of gain, settling at 33.0~dB IFGR and 4.0~dB RFGR (IF = intermediate frequency/digital side, RF = radio frequency/analog side~\cite{analog07rfif}, GR = gain reduction from maximum~\cite{github18gainreduction}). Audio gain was set to -15.0~dB. The immediate bandwidth was set to approximately 60~kHz. A screenshot can be seen in figure \ref{fig:gqrx_noaa15}. The signal was recorded to a .wav-file, as shown by the pressed button in the lower right corner of figure \ref{fig:gqrx_noaa15}.\\
+For receiving the signal, we used GQRX, tuned to the respective satellite frequency. Modulation was set for frequency modulation (FM). We used varying levels of gain, settling at 33.0~dB IFGR and 4.0~dB RFGR (IF = intermediate frequency/digital side, RF = radio frequency/analog side~\cite{analog07rfif}, GR = gain reduction from maximum~\cite{github18gainreduction}). Audio gain was set to -15.0~dB. The immediate bandwidth was set to approximately 60~kHz. A screenshot can be seen in figure \ref{fig:gqrx_noaa15}. The signal was recorded to a .wav-file, as shown by the pressed button in the lower right corner of figure \ref{fig:gqrx_noaa15}.\\
 \begin{figure}
 	\centering
 	\caption{Screenshot of GQRX while receiving NOAA 15 on 21th June, 19:16}
@@ -230,7 +233,8 @@ For receiving the signal, we used GQRX tuned to the respective satellite frequen
 \end{figure}
 Afterwards, the image was decoded using the \textit{noaa-apt image decoder}, which is available for Windows, Linux and MacOS. A popular alternative and precedessor, \textit{WXtoIMG}, is no longer actively maintained and is only available from unofficial websites~\cite{bernardi19noaa-apt}. 
 \subsubsection{Results}
-As mentioned, the second recording was able to capture more information in upper/lower part of the image due to the higher vantage point and more favourable altitude of the pass. The results can be compared in figure \ref{fig:noaa19pass} and \ref{fig:noaa15pass}. The right part of figure \ref{fig:noaa19pass} (near-visible light, as the image was flipped 180 degrees due to the passing direction of the satellite) shows the Black Sea and the Crimean Peninsula in the south, and the Baltic Sea in the north. Both can be distinguished from land by their distinct darker shade of gray~\cite[42]{NOAA19building}. Figure \ref{fig:noaa15pass} very clearly shows Great Britain, Denmark and the Netherlands, France and Sweden, Norway, Finland and Estonia. Italy and parts of Libya and Tunisia can also be seen. The position of the station is nearly exactly in the horizontal center, according to the pass data~\cite{heavensabove19noaa15}, just below a cloud formation as seen on-site. 
+As mentioned, the second recording was able to capture more information in upper/lower part of the image due to the higher vantage point and more favourable altitude of the pass. The results can be compared in figure \ref{fig:noaa19pass} and \ref{fig:noaa15pass}. The right part of figure \ref{fig:noaa19pass} (near-visible light, as the image was flipped 180 degrees due to the passing direction of the satellite) shows the Black Sea and the Crimean Peninsula in the south, and the Baltic Sea in the north. Both can be distinguished from land by their distinct darker shade of gray~\cite[42p]{NOAA19building}. Figure \ref{fig:noaa15pass} shows Great Britain, Denmark and the Netherlands, France and Sweden, Norway, Finland and Estonia. Italy and parts of Libya and Tunisia can also be seen. The position of the station is nearly exactly in the horizontal center, according to the pass data~\cite{heavensabove19noaa15}, just below a cloud formation as seen on-site.\\
+The left parts show the infrared spectrum of the same area~\cite{NOAA19building}.
 \begin{figure}
 	\centering
 	\caption{NOAA 19 on 21th June, 16:24}
@@ -259,6 +263,7 @@ To try out the capabilities of the HackRF, we did our own replay attack on the r
 
 \subsubsection{Inspecting the signal}
 Based on the given frequency, we set up our RTL-SDR with the gqrx-software to inspect the sent data. When pressing the on-/off-button of the remote control we could clearly see the changes in the graphic. (see Fig. \ref{fig:remote_gqrx})
+
 
 \begin{figure}[H]
 	\centering
@@ -316,7 +321,7 @@ Simultaneously we watched the sent data with our RTL-SDR. Through inspecting we 
 \bigbreak
 
 \subsubsection{Cutting in Audacity}
-The recorded data was very big (ca. 25MB per second of recording time), so we analysed the recorded files with the audio-editor software audacity. We imported the files into the software through \textit{file - import - rawdata} and set the import settings to the following:
+The recorded data was very big (ca. 25MB per second of recording time), so we analysed the recorded files with the audio-editing software audacity. We imported the files into the software through \textit{file - import - rawdata} and set the import settings to the following:
 
 \begin{enumerate}
 	\item Encoding: Unsigned 16-Bit PCM
