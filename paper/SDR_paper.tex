@@ -76,24 +76,22 @@ The digital processing needs to be done on an IC suited for the tasks. Commonly 
 	\item MCUs or CPUs for all other tasks
 \end{itemize}
 
-\subsection{Hardware}
+\section{Hardware}
 There is various hardware on the market for software defined radio receivers and transmitters (HackRF, SDRplay, RTL-SDR, Airspy, LimeSDR, FunCube, etc.). The software defined radios we used were:
 \begin{itemize}
 	\item HackRF One - for data transmitting and receiving
 	\item RTL-SDR - for data receiving
 	\item SDR-play - for data receiving
 \end{itemize}
-\bigbreak
-None of these software defined radios did ship with antennas. So we also had to get some of them (see: following pages) in order to receive/send radio signals.
-\\
-\subsubsection{HackRF One}
-Compared to the other Software Defined Radios of our list, the HackRF One with a price of around 300€ is the most expensive. But it has several advantages: It provides a very high operational bandwidth (from 30MHz to 6GHz) with an instantaneous bandwidth of 20MHz. (Instantaneos bandwidth = It can acquire 20MHz of RF spectrum around the chosen center frequency in real-time without a re-tuning of the oscillator) \cite[2.5]{Mishra2014} The HackRf also offers in difference to our other hardware the possibility to transmit radio signals. So it can also be used to perform replay attacks (see section \ref{replayattack}). Radio signals between 30MHz and 6GHz (e.g. Signals from remote controls of wireless sockets) can be recorded and afterwards sended again.  \\
 
-\subsubsection{SDRplay}
-In order to receive radio signals we also ordered a SDRplay (Type RSP1). This receiver covers the RF spectrum from 1kHz to 2GHz. The SDRplay ships with  a lot of software support (HDSDR, SDR Console, Cubic SDR and SDRuno) hence is very easy to setup. The instantaneous bandwidth is 10MHz and there are several preselection filters built in for better receiving-results. To provide more accuracy the SDRplay uses a 14-Bit ADC (RTL-SDR uses only 8-Bit).
+\subsection{HackRF One}
+Compared to the other Software Defined Radios of our list, the HackRF One with a price of around 300€ is the most expensive. But it has several advantages: It provides a very high operational bandwidth (from 30MHz to 6GHz) with an instantaneous bandwidth of 20MHz. (Instantaneos bandwidth = It can acquire 20MHz of RF spectrum around the chosen center frequency in real-time without a re-tuning of the oscillator) \cite[Kap. 2.5]{Mishra2014} The HackRf is not only able to receive radio signals, but also to transmit them. Radio signals between 30MHz and 6GHz (e.g. Signals from remote controls of wireless sockets) can be recorded and afterwards sended again. So it can also be used to perform replay attacks (see section \ref{replayattack}).  \\
+
+\subsection{SDRplay}
+In order to receive radio signals we also ordered an SDRplay (Type RSP1). This receiver covers the RF spectrum from 1kHz to 2GHz. The SDRplay ships with  a lot of software support (HDSDR, SDR Console, Cubic SDR and SDRuno), hence is very easy to setup. The instantaneous bandwidth is 10MHz and there are several preselection filters built in for better receiving-results. To provide more accuracy the SDRplay uses a 14-Bit ADC (RTL-SDR uses only 8-Bit).
 \cite{sdrplay}
 \\
-\subsubsection{RTL-SDR}
+\subsection{RTL-SDR}
 This is the cheapest product on our list.(It did cost about 30€) The RTL-SDR is a USB-dongle which is capable of receiving radio signals  between 500kHz and 1,75GHz.  The  usage of these dongles started years ago from mass produced DVB-T TV Tuners. Because of an easy accessible chipset (RTL2832U) those tuners could be converted into wideband software defined radios (trough custom software drivers). This discovery made the access to the radio spectrum much cheaper. \cite{rtl-sdr}
 
 
@@ -247,11 +245,10 @@ As mentioned, the second recording was able to capture more information in upper
 %Beispiel Funksteckdose: Wie funktioniert die Codierung?
 %wie funktioniert der workflow? HackRF + hackrf_transfer, parameter, 433 MHz Antenne
 
-\subsection{What is a replay attack}
-At a replay attack some radio signals are recorded at first (e.g.: unlocking a car via remote key) and transmitted at some later point in time.  If the transmitted radio signal to get some desired behaviour (e.g. switching on a remote socket) never changes, an attacker could record it with a software defined radio and transmit it afterwards at any time he wants to get that behaviour again. Because of this, newer cars use authentication protocols with changing codes for unlocking. \cite{verdult2015cryptanalysis} Necessary to perform such an attack is to know the approximate frequency range of the radio signal and to use hardware that is capable of sending and receiving radio signals within that range (e.g. HackRF One). 
+At a replay attack some radio signals are recorded at first (e.g.: unlocking a car via remote key) and transmitted at some later point in time.  If the transmitted radio signal to get some desired behaviour (e.g. switching on a remote socket) never changes, an attacker could record it with a software defined radio and transmit it afterwards at any time he/she wants to get that behaviour again. Because of this, newer cars use authentication protocols with changing codes for unlocking. \cite{verdult2015cryptanalysis}To perform this attack, whe had to know the approximate frequency range of the radio signal and to use hardware that is capable of sending and receiving radio signals within that range (e.g. HackRF One). 
 
 \subsection{Example remote socket}
-To try out the capabilities of the HackRF we did our own replay attack on the remote control of a wireless switch unit. Most of these radio signal devices have their sending frequency written on them. This was also the case with our remote control and switch unit. On the back it said 433,92MHz (see Fig. \ref{fig:remote})
+To try out the capabilities of the HackRF, we did our own replay attack on the remote control of a wireless switch unit. Most of these radio signal devices have their sending frequency written on them. This was also the case with our remote control and switch unit. On the back it said 433,92MHz (see Fig. \ref{fig:remote})
 
 \begin{figure}[H]
 	\centering
@@ -261,7 +258,7 @@ To try out the capabilities of the HackRF we did our own replay attack on the re
 \end{figure}
 
 \subsubsection{Inspecting the signal}
-Based on the given frequency we set up our RTL-SDR with the gqrx-software to inspect the sent data. When pressing the on-/off-button of the remote control we could clearly see the changes in the graphic. (see Fig. \ref{fig:remote_gqrx})
+Based on the given frequency, we set up our RTL-SDR with the gqrx-software to inspect the sent data. When pressing the on-/off-button of the remote control we could clearly see the changes in the graphic. (see Fig. \ref{fig:remote_gqrx})
 
 \begin{figure}[H]
 	\centering
@@ -301,7 +298,7 @@ hackrf_transfer -t output/edited.raw -f 433920000 -x 40 -b 2000000
 	\item -x: TX gain in dB
 	\item -b: baseband filter bandwidth in Hz
 \end{enumerate}
-Simultaneously we watched the sent data with our RTL-SDR. Through inspecting we detected that our chosen gain was too low to be detectable from the switch unit (see Fig. \ref{fig:hackrf_gqrx_g10}), so we put it up to 40dB (see  \textit{-x} in command above). That gave the signal enough power to be detected (see Fig. \ref{fig:hackrf_gqrx_g40}). So our replay attack was already successful.
+Simultaneously we watched the sent data with our RTL-SDR. Through inspecting we detected that our chosen gain was too low to be detectable from the switch unit (see Fig. \ref{fig:hackrf_gqrx_g10}), so we put it up to 40dB (see  \textit{-x} in command above). That gave the signal enough power to be detected by the switch unit and to recreate the recorded behaviour. Although the replayed signal looks different than the recorded one in qgrx (see Fig. \ref{fig:hackrf_gqrx_g40}), it still works. So our replay attack was already successful.
 
 \begin{figure}[H]
 	\centering
@@ -335,18 +332,21 @@ After doing that we could detect, that when switching on or off there is the sam
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{audacity_received_on}
-	\caption{The recorded data to switch the wireless switch unit on analyzed in audacity with two and a half occurrences of the periodic signal.}
+	\caption{The recorded data to switch the wireless switch unit "On", analyzed in audacity with two and a half occurrences of the periodic signal.}
 	\label{fig:audacity_on}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{audacity_received_off}
-	\caption{The recorded data to switch the wireless switch unit off analyzed in audacity with two and a half occurrences of the periodic signal.}
+	\caption{The recorded data to switch the wireless switch unit "Off", analyzed in audacity with two and a half occurrences of the periodic signal.}
 	\label{fig:audacity_off}
 \end{figure}
 
-So we could cut away most of these repetitive signals. After that we exported the data again as raw file (\textit{File - export - audio export - raw (header-less) with the unsigned 16-Bit PCM encoding}) and sent it with the HackRF. In doing that we could reduce the filesize from 70MB to 2MB.
+So we could cut away most of these repetitive signals. In our case we needed at least three repetitions of the signal to switch the unit. After the cutting we exported the data again as raw file (\textit{File - export - audio export - raw (header-less) with the unsigned 16-Bit PCM encoding}) and sent it with the HackRF. In doing that we could reduce the filesize from 70MB to 2MB.
+
+\section{Conclusion}
+There are a lot of applications to use Software Defined Radio. 
 %weitere Ideen:
 %Radioempfang + Codierung
 %rechtliche Lage: ISM-Bänder, Amateurfunklizenz
