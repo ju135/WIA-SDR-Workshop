@@ -9,6 +9,7 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{balance}
 \usepackage[hidelinks]{hyperref}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -45,7 +46,7 @@
 \maketitle
 
 \begin{abstract}
-In this paper, we will explain the concept of software defined radio (SDR) receivers (and transmitters). Afterwards, we will present software packages available to use with SDR receivers on the different platforms. Finally, we will discuss different applications using SDRs: receiving air traffic transmissions, weather satellite images and replay attacks.
+
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -57,8 +58,6 @@ SDR, antenna, signal processing, ADS-B, NOAA, replay attack
 % - Was ist SDR?
 % - erhältliche Hardware: HackRF, SDRplay, RTL-SDR, Airspy, LimeSDR, FunCube
 %   von wem kommt er? Was kostet er? Unterschiede/Möglichkeiten?
-
-
 
 \subsection{What is SDR?}
 A software defined radio system is a radio transmission system that heavily relies on software instead of analog hardware~\cite{Heuberger2017}.\\
@@ -75,6 +74,9 @@ The digital processing needs to be done on an IC suited for the tasks. Commonly 
 	\item Digital signal processors (DSPs) for expensive computations in the demodulator
 	\item Microcontroller units (MCUs) or CPUs for all other tasks
 \end{itemize}
+\subsection{In this paper}
+In this paper, we will present applications using inexpensive SDR hardware.\\
+First, we will show the hardware we used for our experiments. Afterwards, we will present software packages available to use with SDR receivers on the different platforms. Finally, we will discuss different applications using SDRs: receiving air traffic transmissions, weather satellite images and performing replay attacks.
 
 \section{Hardware}
 There is various hardware on the market for software defined radio receivers and transmitters (HackRF, SDRplay, RTL-SDR, Airspy, LimeSDR, FunCube, etc.). The software defined radios we used were:
@@ -107,11 +109,12 @@ This is the cheapest product on our list.(It did cost about 30€) The RTL-SDR i
 GNU Radio is a signal processing software and software development toolkit available for Linux, OS X and (with less support available) Windows~\cite{Gnu19FAQ}\cite{Gnu19What}. It is licenced under GPLv3 or later~\cite{Gnu19FAQ}.\\
 The desired signal processing steps are laid out as blocks that are connected to each other. End user applications are written using Python, while the performance-critical backend is written in C++.\\
 The GNU radio companion is a GUI for GNU Radio which aids in building these blocks through drag-and-drop, comparable to Simulink~\cite{Gnu19FAQ}.\\
-\begin{figure}[H]
+\balance
+\begin{figure*}
 	\centering
-	\includegraphics[width=0.5\textwidth]{gnuradio_example_flowgraph}
+	\includegraphics[width=0.8\textwidth]{gnuradio_example_flowgraph}
 	\caption{An example flowgraph in GNU Radio Companion~\cite{Gnu19Example}}
-\end{figure}
+\end{figure*}
 
 \subsection{GQRX}
 GQRX is a graphical frontend for GNU Radio offering an FFT plot and waterfall graph, hardware abstractions for various SDR devices to set frequency and other settings and multiple demodulators.\\
@@ -226,11 +229,12 @@ The second attempt was on an observation deck on a mountain at 750m above sea le
 We used the home-built V-dipole antenna mentioned in \ref{sec:NOAAantennas}. The SDR used was an SDRplay (RSP1A). 
 \subsubsection{Software}
 For receiving the signal, we used GQRX, tuned to the respective satellite frequency. Modulation was set for frequency modulation (FM). We used varying levels of gain, settling at 33.0~dB IFGR and 4.0~dB RFGR (IF = intermediate frequency/digital side, RF = radio frequency/analog side~\cite{analog07rfif}, GR = gain reduction from maximum~\cite{github18gainreduction}). Audio gain was set to -15.0~dB. The immediate bandwidth was set to approximately 60~kHz. A screenshot can be seen in figure \ref{fig:gqrx_noaa15}. The signal was recorded to a .wav-file, as shown by the pressed button in the lower right corner of figure \ref{fig:gqrx_noaa15}.\\
-\begin{figure}
+\balance
+\begin{figure*}
 	\centering
 	\caption{Screenshot of GQRX while receiving NOAA 15 on 21th June, 19:16}
-	\includegraphics[width=0.5\textwidth]{gqrx_screenshot_noaa15} \label{fig:gqrx_noaa15}
-\end{figure}
+	\includegraphics[width=\textwidth]{gqrx_screenshot_noaa15} \label{fig:gqrx_noaa15}
+\end{figure*}
 Afterwards, the image was decoded using the \textit{noaa-apt image decoder}, which is available for Windows, Linux and MacOS. A popular alternative and precedessor, \textit{WXtoIMG}, is no longer actively maintained and is only available from unofficial websites~\cite{bernardi19noaa-apt}. 
 \subsubsection{Results}
 As mentioned, the second recording was able to capture more information in upper/lower part of the image due to the higher vantage point and more favourable altitude of the pass. The results can be compared in figure \ref{fig:noaa19pass} and \ref{fig:noaa15pass}. The right part of figure \ref{fig:noaa19pass} (near-visible light, as the image was flipped 180 degrees due to the passing direction of the satellite) shows the Black Sea and the Crimean Peninsula in the south, and the Baltic Sea in the north. Both can be distinguished from land by their distinct darker shade of gray~\cite[42p]{NOAA19building}. Figure \ref{fig:noaa15pass} shows Great Britain, Denmark and the Netherlands, France and Sweden, Norway, Finland and Estonia. Italy and parts of Libya and Tunisia can also be seen. The position of the station is nearly exactly in the horizontal center, according to the pass data~\cite{heavensabove19noaa15}, just below a cloud formation as seen on-site.\\
@@ -359,7 +363,7 @@ There are a lot of applications to use Software Defined Radio.
 %ship tracking
 %Antennentypen: Dipol, Yagi, Patch, Parabol, ...
 
+\bibliographystyle{IEEEtran}
 \bibliography{references}
-\bibliographystyle{ieeetr}
 
 \end{document}
