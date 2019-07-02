@@ -34,13 +34,13 @@
 	\IEEEauthorblockA{\textit{FH OÖ Campus Hagenberg, Mobile Computing}\\
 		Softwarepark 106/14\\
 		4232 Hagenberg im Mühlkreis, Austria\\
-		s1710237010@students.fh-hagenberg.at}
+		\lstinline|s1710237010@students.fh-hagenberg.at|}
 	\and
 	\IEEEauthorblockN{Alexander Kemptner}
 	\IEEEauthorblockA{\textit{FH OÖ Campus Hagenberg, Mobile Computing}\\
 		Softwarepark 106/9\\
 		4232 Hagenberg im Mühlkreis, Austria\\
-		s1710237015@students.fh-hagenberg.at}
+		\lstinline|s1710237015@students.fh-hagenberg.at|}
 }
 
 \maketitle
@@ -61,8 +61,8 @@ SDR, antenna, signal processing, ADS-B, NOAA, replay attack
 %   von wem kommt er? Was kostet er? Unterschiede/Möglichkeiten?
 
 \subsection{What is SDR?}
-A software defined radio system is a radio transmission system that heavily relies on software instead of analog hardware~\cite{Heuberger2017}.\\
-In case of a transmitter, it takes data as an input (source), performs a sequence of operations via software on this data, converts it to an analog signal (with the help of an DAC) and transmits it wirelessly through its radio frequency (RF) frontend. The receiver performs the same tasks in reverse order (with an ADC), finally outputting the same data on it's sink~\cite[5pp]{wyglinski2018software}.
+A software defined radio (SDR) system is a radio transmission system that heavily relies on software instead of analog hardware~\cite{Heuberger2017}.\\
+In case of a transmitter, it takes data as an input (source), performs a sequence of operations via software on this data, converts it to an analog signal (with the help of an DAC) and transmits it wirelessly through its radio frequency (RF) frontend. The receiver performs the same tasks in reverse order (with an ADC), finally outputting the same data on its sink~\cite[5pp]{wyglinski2018software}.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{forEngineers_SDR_structure}
@@ -80,6 +80,7 @@ In this paper, we will present applications using inexpensive SDR hardware.\\
 First, we will show the hardware we used for our experiments. Afterwards, we will present software packages available to use with SDR receivers on the different platforms. Finally, we will discuss different applications using SDRs.
 
 \section{Hardware}
+\subsection{SDR receivers/transmitters}
 There is various hardware on the market for software defined radio receivers and transmitters (HackRF, SDRplay, RTL-SDR, Airspy, LimeSDR, FunCube, etc.). The software defined radios we used were:
 \begin{itemize}
 	\item HackRF One - for data transmitting and receiving
@@ -87,15 +88,25 @@ There is various hardware on the market for software defined radio receivers and
 	\item SDRplay - for data receiving
 \end{itemize}
 
-\subsection{HackRF One}
-Compared to the other Software Defined Radios of our list, the HackRF One with a price of around 300€ is the most expensive. But it has several advantages: It provides a very high operational bandwidth (from 30MHz to 6GHz) with an instantaneous bandwidth of 20MHz. (Instantaneos bandwidth = It can acquire 20MHz of RF spectrum around the chosen center frequency in real-time without a re-tuning of the oscillator) \cite[Chap. 2.5]{Mishra2014} The HackRf is not only able to receive radio signals, but also to transmit them. Radio signals between 30MHz and 6GHz (e.g. Signals from remote controls of wireless sockets) can be recorded and afterwards sended again. So it can also be used to perform replay attacks (see section \ref{replayattack}).  \\
+\subsubsection{HackRF One}
+Compared to the other Software Defined Radios of our list, the HackRF One with a price of around 300€ is the most expensive. But it has several advantages: It provides a very high operational bandwidth (from 30MHz to 6GHz) with an instantaneous bandwidth of 20MHz. (Instantaneos bandwidth = It can acquire 20MHz of RF spectrum around the chosen center frequency in real-time without a re-tuning of the oscillator) \cite{Mishra2014} The HackRf is not only able to receive radio signals, but can also to transmit them. Radio signals between 30MHz and 6GHz (e.g. Signals from remote controls of wireless sockets) can be recorded and afterwards sent again. This makes it possible to perform replay attacks (see section \ref{replayattack}).  \\
 
-\subsection{SDRplay}
-In order to receive radio signals we also ordered an SDRplay (Type RSP1). This receiver covers the RF spectrum from 1kHz to 2GHz. The SDRplay ships with  a lot of software support (HDSDR, SDR Console, Cubic SDR and SDRuno), hence is very easy to setup. The instantaneous bandwidth is 10MHz and there are several preselection filters built in for better receiving-results. To provide more accuracy the SDRplay uses a 14-Bit ADC (RTL-SDR uses only 8-Bit).
-\cite{sdrplay}
-\\
-\subsection{RTL-SDR}
-This is the cheapest product on our list.(It did cost about 30€) The RTL-SDR is a USB-dongle which is capable of receiving radio signals  between 500kHz and 1,75GHz.  The  usage of these dongles started years ago from mass produced DVB-T TV Tuners. Because of an easy accessible chipset (RTL2832U) those tuners could be converted into wideband software defined radios (trough custom software drivers). This discovery made the access to the radio spectrum much cheaper. \cite{rtl-sdr}
+\subsubsection{SDRplay} \label{sec:SDRplay}
+In order to receive radio signals we also ordered an SDRplay (Type RSP1). This receiver covers the RF spectrum from 1kHz to 2GHz. The SDRplay ships with  a lot of software support (HDSDR, SDR Console, Cubic SDR and SDRuno), hence is very easy to setup. The instantaneous bandwidth is 10MHz and there are several preselection filters built in for better receiving-results. To provide more accuracy the SDRplay uses a 14-Bit ADC (RTL-SDR uses only 8-Bit)~\cite{sdrplay}.
+\subsubsection{RTL-SDR}
+This is the cheapest product on our list.(It did cost about 30€) The RTL-SDR is a USB-dongle which is capable of receiving radio signals  between 500kHz and 1,75GHz.  The  usage of these dongles started years ago from mass produced DVB-T TV Tuners. Because of an easy accessible chipset (RTL2832U) those tuners could be converted into wideband software defined radios (trough custom software drivers). This discovery made the access to the radio spectrum much cheaper~\cite{rtl-sdr}.
+
+\subsection{Antennas}
+\subsubsection{ADS-B Antenna}
+For our experiments, we used a monopole antenna specifically designed for ADS-B on 1090 MHz. It was sourced on Amazon for €~10,56.
+\subsubsection{NOAA APT V-dipole} \label{sec:NOAAantennas}
+Some frequently used antenna designs for receiving NOAA satellites are the (cheaper) turnstile antenna and the (better suited) quadrifilar antenna~\cite[45p]{NOAA19building}, because the ideal polarisation is right-hand circular~\cite[44p]{NOAA19building}.\\
+In our experiment, we used a different, easier design. Our antenna was a V-dipole with horizontal polarisation. This design achieves 20 dB of attenuation of the vertically polarised broadcasting stations located near the 137~MHz frequency of the POES satellites. It uses two 53.4~cm aluminium rod legs bent apart 120 degrees. They are fixed in a choc block terminal. On the other side, the shield of a coax cable is connected to one of the terminals, the inner conductor to the other~\cite{Adam15antenna}. We used standard TV coax cable, finished them with type F connectors and connected the antenna to our SDR receiver through an F-to-SMA connector. Our finished design is shown in figure \ref{fig:vdipolefinished}.
+\begin{figure}
+	\centering
+	\caption{the antenna mounted onto a tripod with a flashlight hot-shoe clamp}
+	\includegraphics[width=0.5\textwidth]{v-dipole-finished} \label{fig:vdipolefinished}
+\end{figure}
 
 \section{Software} %Alexander
 %GNU Radio Companion
@@ -113,11 +124,11 @@ The GNU radio companion is a GUI for GNU Radio which aids in building these bloc
 \balance
 \begin{figure*}
 	\centering
-	\includegraphics[width=0.8\textwidth]{gnuradio_example_flowgraph}
+	\includegraphics[width=0.9\textwidth]{gnuradio_example_flowgraph}
 	\caption{An example flowgraph in GNU Radio Companion~\cite{Gnu19Example}}
 \end{figure*}
 
-\subsection{GQRX}
+\subsection{GQRX} \label{sec:GQRX}
 GQRX is a graphical frontend for GNU Radio offering an FFT plot and waterfall graph, hardware abstractions for various SDR devices to set frequency and other settings and multiple demodulators.\\
 The received data can be digitally filtered and recorded to a file~\cite{GQRX19Home}.
 \begin{figure}[H]
@@ -137,14 +148,9 @@ The functionality can be expanded with third-party plugins~\cite{SDRsharp19Downl
 %Welche Software gibt es/wie funktioniert der Workflow (hackrf_transfer/sox/dump_1090)
 %Ergebnisse/Screenshots/flightradar24 Vergleich
 Automatic Dependent Surveillance Broadcast is a system in air traffic control for transmitting flight data (location, \ldots) from an aircraft to air traffic control stations.\\
-It should replace radar as the primary tracking mechanism because of its higher precision needed in modern, densely populated air space~\cite{strohmeier2014realities}.
-\subsection{Objective}
-In this experiment, we want to capture and visualise the ADS-B messages sent by airplanes in our area.
-\subsection{Frequencies}
-Two standards with different frequencies are in use: Universal Access Transceiver (978 MHz) and 1090 MHz extended squitter (1090ES). The latter is more common in commercial aircraft, as it can be used with hardware already fitted for a previous communication standard (mode S)~\cite{strohmeier2014realities}.
-\subsection{Antennas}
-For our experiments, we used a monopole antenna specifically designed for ADS-B on 1090 MHz. It was sourced on Amazon for € 10,56.
-\subsection{Workflow}
+It should replace radar as the primary tracking mechanism because of its higher precision needed in modern, densely populated air space~\cite{strohmeier2014realities}.\\
+In this experiment, we want to capture and visualise the ADS-B messages sent by airplanes in our area.\\
+Two standards with different frequencies are in use: Universal Access Transceiver (978 MHz) and 1090 MHz extended squitter (1090ES). The latter is more common in commercial aircraft, as it can be used with hardware already fitted for a previous communication standard (mode S)~\cite{strohmeier2014realities}.\\
 We used an HackRF SDR receiver for our experiment. Data was captured using the HackRF command line tool \lstinline|hackrf_transfer|. The full command used was
 \begin{lstlisting}
 hackrf_transfer -r - -f 1090000000 -s 2000000 -p 0 -a 0 -l 40 -g 62
@@ -199,8 +205,8 @@ Both sources, RTL-SDR and HackRF produce an output similar to the one shown in f
 %Bau der Antenne (verschiedene Typen: V-Dipol, QFH, ...)
 %Welche Software gibt es/wie funktioniert der Workflow
 %Ergebnisse/Screenshots
-The \textit{National Oceanic and Atmospheric Administration} is an organisation of the US government producing, among other things, weather forecasts~\cite{NOAA19agency}. For this purpose, a suborganisation called the \textit{Satellite and Information Service} currently operates 18 satellites~\cite{NOAA19currently}. Among them, there are 5 geostationary GOES satellites and four NOAA sun-synchronous polar-orbiting satellites (POES)~\cite{NOAA19satellites}. We will focus on the latter in this application example.
-\subsection{What is APT?}
+
+The \textit{National Oceanic and Atmospheric Administration} is an organisation of the US government producing, among other things, weather forecasts~\cite{NOAA19agency}. For this purpose, a suborganisation called the \textit{Satellite and Information Service} currently operates 18 satellites~\cite{NOAA19currently}. Among them, there are 5 geostationary GOES satellites and four NOAA sun-synchronous polar-orbiting satellites (POES)~\cite{NOAA19satellites}. We will focus on the latter in this application example.\\
 \textit{Automatic Picture Transmission} is an analog system for transmitting images from satellites to ground stations. In case of (POES) NOAA satellites, two images of different wavelengths are transmitted simultaneously.\\
 The system uses frequency modulation with a carrier frequency of around 137~MHz~\cite{NOAA19status}. The downsampled 8-bit signal from the sensor is modulated onto a 2.4~kHz band via amplitude modulation. This is in turn frequency modulated onto the carrier frequency of the satellite~\cite{NOAA19building}.\\
 \begin{figure}
@@ -208,34 +214,20 @@ The system uses frequency modulation with a carrier frequency of around 137~MHz~
 \caption{The APT protocol~\cite{NOAA19building}} \label{fig:aptprotocol}
 \includegraphics[width=0.5\textwidth]{apt_protocol}
 \end{figure}
-As shown in figure \ref{fig:aptprotocol}, data is transmitted line-by-line, one line every 0.5 seconds, each 2800px long (including metadata)~\cite[2p]{dascal2012advanced}. Lines start with a synchronisation block (832 Hz for IR, 1040 Hz for visible to distinguish the two) for the decoding software, followed by minute and space markers (the sensor briefly scans empty space turned away from earth, which shows up as pure black or white, and inserts an opposingly colored bar every minute). This is followed by the image data. At the end of each frame is the telemetry data, containing calibration data~\cite[41pp]{NOAA19building}.
-\subsection{Antennas} \label{sec:NOAAantennas}
-Some frequently used antenna designs are the (cheaper) turnstile antenna and the (better suited) quadrifilar antenna~\cite[45p]{NOAA19building}. The ideal polarisation is right-hand circular~\cite[44p]{NOAA19building}.\\
-In our experiment, we used a different, easier design. Our antenna was a V-dipole with horizontal polarisation. This design achieves 20 dB of attenuation of the vertically polarised broadcasting stations located near the 137~MHz frequency of the POES satellites. It uses two 53.4~cm aluminium rod legs bent apart 120 degrees. They are fixed in a choc block terminal. On the other side, the shield of a coax cable is connected to one of the terminals, the inner conductor to the other~\cite{Adam15antenna}. We used standard TV coax cable, finished them with type F connectors and connected the antenna to our SDR receiver through an F-to-SMA connector. Our finished design is shown in figure \ref{fig:vdipolefinished}.
-\begin{figure}
-	\centering
-	\caption{the antenna mounted onto a tripod with a flashlight hot-shoe clamp}
-	\includegraphics[width=0.5\textwidth]{v-dipole-finished} \label{fig:vdipolefinished}
-\end{figure}
-\subsection{Objective}
-In this experiment, we attempt to receive these APT images with the mentioned inexpensive, partially self-built equipment.
-\subsection{Experiment}
-We performed two experiments, receiving two NOAA POES satellites, NOAA 15 and NOAA 19, at different locations.
-\subsubsection{Sites}
-Information about upcoming passes was sourced from \url{https://heavens-above.com/}. The first pass was NOAA 19 on 21th June 2019, 16:24 local time. The antenna was set up in a valley, and the maximum elevation of the satellite was 39 degrees, which led to a loss of signal at the beginning and end of transmission.\\
+As shown in figure \ref{fig:aptprotocol}, data is transmitted line-by-line, one line every 0.5 seconds, each 2800px long (including metadata)~\cite[2p]{dascal2012advanced}. Lines start with a synchronisation block (832 Hz for IR, 1040 Hz for visible to distinguish the two) for the decoding software, followed by minute and space markers (the sensor briefly scans empty space turned away from earth, which shows up as pure black or white, and inserts an opposingly colored bar every minute). This is followed by the image data. At the end of each frame is the telemetry data, containing calibration data~\cite[41pp]{NOAA19building}.\\
+In this experiment, we attempt to receive these APT images with the mentioned inexpensive, partially self-built equipment.\\
+We performed two experiments, receiving two NOAA POES satellites, NOAA 15 and NOAA 19, at different locations.\\
+Information about upcoming passes was sourced from \url{heavens-above.com}. The first pass was NOAA 19 on 21th June 2019, 16:24 local time. The antenna was set up in a valley, and the maximum elevation of the satellite was 39 degrees, which led to a loss of signal at the beginning and end of transmission.\\
 The second attempt was on an observation deck on a mountain at 750m above sea level. This reception shows more information at the extremes of the image, also due to the satellite passing directly overhead (88 degrees~\cite{heavensabove19noaa15}).\\
-\subsubsection{Hardware}
-We used the home-built V-dipole antenna mentioned in \ref{sec:NOAAantennas}. The SDR used was an SDRplay (RSP1A). 
-\subsubsection{Software}
-For receiving the signal, we used GQRX, tuned to the respective satellite frequency. Modulation was set for frequency modulation (FM). We used varying levels of gain, settling at 33.0~dB IFGR and 4.0~dB RFGR (IF = intermediate frequency/digital side, RF = radio frequency/analog side~\cite{analog07rfif}, GR = gain reduction from maximum~\cite{github18gainreduction}). Audio gain was set to -15.0~dB. The immediate bandwidth was set to approximately 60~kHz. A screenshot can be seen in figure \ref{fig:gqrx_noaa15}. The signal was recorded to a .wav-file, as shown by the pressed button in the lower right corner of figure \ref{fig:gqrx_noaa15}.\\
+On the hardware side, we used the home-built V-dipole antenna mentioned in \ref{sec:NOAAantennas}, the SDR receiver used was an SDRplay (RSP1A), described in \ref{sec:SDRplay}.\\
+For receiving the signal, we used GQRX (see \ref{sec:GQRX}), tuned to the respective satellite frequency. Modulation was set for frequency modulation (FM). We used varying levels of gain, settling at 33.0~dB IFGR and 4.0~dB RFGR (IF = intermediate frequency/digital side, RF = radio frequency/analog side~\cite{analog07rfif}, GR = gain reduction from maximum~\cite{github18gainreduction}). Audio gain was set to -15.0~dB. The immediate bandwidth was set to approximately 60~kHz. A screenshot can be seen in figure \ref{fig:gqrx_noaa15}. The signal was recorded to a .wav-file, as shown by the pressed button in the lower right corner of figure \ref{fig:gqrx_noaa15}.\\
 \balance
 \begin{figure*}
 	\centering
 	\caption{Screenshot of GQRX while receiving NOAA 15 on 21th June, 19:16}
 	\includegraphics[width=\textwidth]{gqrx_screenshot_noaa15} \label{fig:gqrx_noaa15}
 \end{figure*}
-Afterwards, the image was decoded using the \textit{noaa-apt image decoder}, which is available for Windows, Linux and MacOS. A popular alternative and precedessor, \textit{WXtoIMG}, is no longer actively maintained and is only available from unofficial websites~\cite{bernardi19noaa-apt}. 
-\subsubsection{Results}
+Afterwards, the image was decoded using the \textit{noaa-apt image decoder}, which is available for Windows, Linux and MacOS. A popular alternative and precedessor, \textit{WXtoIMG}, is no longer actively maintained and is only available from unofficial websites~\cite{bernardi19noaa-apt}.\\
 As mentioned, the second recording was able to capture more information in upper/lower part of the image due to the higher vantage point and more favourable altitude of the pass. The results can be compared in figure \ref{fig:noaa19pass} and \ref{fig:noaa15pass}. The right part of figure \ref{fig:noaa19pass} (near-visible light, as the image was flipped 180 degrees due to the passing direction of the satellite) shows the Black Sea and the Crimean Peninsula in the south, and the Baltic Sea in the north. Both can be distinguished from land by their distinct darker shade of gray~\cite[42p]{NOAA19building}. Figure \ref{fig:noaa15pass} shows Great Britain, Denmark and the Netherlands, France and Sweden, Norway, Finland and Estonia. Italy and parts of Libya and Tunisia can also be seen. The position of the station is nearly exactly in the horizontal center, according to the pass data~\cite{heavensabove19noaa15}, just below a cloud formation as seen on-site.\\
 The left parts show the infrared spectrum of the same area~\cite{NOAA19building}.
 \begin{figure}
@@ -252,10 +244,11 @@ The left parts show the infrared spectrum of the same area~\cite{NOAA19building}
 %Beispiel Funksteckdose: Wie funktioniert die Codierung?
 %wie funktioniert der workflow? HackRF + hackrf_transfer, parameter, 433 MHz Antenne
 
-At a replay attack some radio signals are recorded at first (e.g.: unlocking a car via remote key) and transmitted at some later point in time.  If the transmitted radio signal to get some desired behaviour (e.g. switching on a remote socket) never changes, an attacker could record it with a software defined radio and transmit it afterwards at any time he/she wants to get that behaviour again. Because of this, newer cars use authentication protocols with changing codes for unlocking. \cite{verdult2015cryptanalysis}To perform this attack, whe had to know the approximate frequency range of the radio signal and to use hardware that is capable of sending and receiving radio signals within that range (e.g. HackRF One). 
+To perform a replay attack, some radio signals are recorded at first (e.g.: unlocking a car via remote key) and transmitted at some later point in time. If the transmitted radio signal to get some desired behaviour (e.g. switching on a remote socket) never changes, an attacker could record it with a software defined radio and transmit it afterwards at any time he/she wants to get that behaviour again. Because of this, newer cars use authentication protocols with changing codes for unlocking~\cite{verdult2015cryptanalysis}.\\
+To perform this attack, whe had to know the approximate frequency range of the radio signal and to use hardware that is capable of sending and receiving radio signals within that range (e.g. HackRF One). 
 
 \subsection{Example remote socket}
-To try out the capabilities of the HackRF, we did our own replay attack on the remote control of a wireless switch unit. Most of these radio signal devices have their sending frequency written on them. This was also the case with our remote control and switch unit. On the back it said 433,92MHz (see Fig. \ref{fig:remote})
+To try out the capabilities of the HackRF, we did our own replay attack on the remote control of a wireless switch unit. Most of these radio signal devices have their sending frequency written on them. This was also the case with our remote control and switch unit. On the back it said 433,92MHz (see Fig. \ref{fig:remote}).
 
 \begin{figure}[H]
 	\centering
@@ -276,9 +269,8 @@ Based on the given frequency, we set up our RTL-SDR with the gqrx-software to in
 \end{figure}
 
 The signal seems to have its peak at exactly 433,92MHz. There are also some side lobes noticeable (at 433,19MHz and 434,65MHz). 
-\\
 \subsubsection{Recording the data}
-Knowing the center frequency we tried to record the data with our HackRF One.  Therefore we installed the HackRF software \cite{hackrfsoftware} using homebrew.
+Knowing the center frequency, we tried to record the data with our HackRF One. Therefore we installed the HackRF software \cite{hackrfsoftware} using homebrew.
 \begin{lstlisting}
 brew install hackrf
 \end{lstlisting}
@@ -329,7 +321,7 @@ The recorded data was very big (ca. 25MB per second of recording time), so we an
 \begin{enumerate}
 	\item Encoding: Unsigned 16-Bit PCM
 	\item Byte order: Big Endian
-	\item Channels: 1 Channel (Mono=
+	\item Channels: 1 Channel (Mono)
 	\item Offset: 0 Bytes
 	\item Amount: 100%
 	\item Sample rate: 10MHz (default of hackrf\_transfer)
@@ -354,7 +346,7 @@ After doing that we could detect, that when switching on or off there is the sam
 So we could cut away most of these repetitive signals. In our case we needed at least three repetitions of the signal to switch the unit. After the cutting we exported the data again as raw file (\textit{File - export - audio export - raw (header-less) with the unsigned 16-Bit PCM encoding}) and sent it with the HackRF. In doing that we could reduce the filesize from 70MB to 2MB.
 
 \section{Conclusion and Further Work}
-There are a lot of capabilities for software defined radio applications. The experiments we did were just some of the plenty things that are possible with software defined radios. The community around SDR is very big, hence there are a lot of projects on different use cases to find on the internet \cite{rtl-sdr}. Some of them are:
+There are a lot of applications for software defined radio. The experiments we did were just some of the plenty things that are possible with inexpensive receivers and transmitters. The community around SDR is very big, hence there are a lot of projects on different use cases to find on the internet~\cite{rtl-sdr}. Some of them are:
 
 \begin{itemize}
 	\item Tracking boat positions with AIS decoding  \cite{ais-ship-tracking}
