@@ -1,3 +1,5 @@
+[Paper Download](paper/SDR_Paper.pdf)
+
 # Replay attack 433MHz Funksteckdose
 ## benötigte Hardware
 - HackRF
